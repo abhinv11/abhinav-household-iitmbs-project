@@ -1,0 +1,27 @@
+{% extends "customer_layout.html" %}
+{% block content %}
+<div class="center"><h3>Book Service Request</h3></div>
+
+<form action="/customerbookrequest/{{ cid }}/{{ sid }}/{{ pid }}/{{ name }}" method="POST">
+    <div class="mb-3">
+      <div class="center"><h4>Service Name: {{sname}}</h4></div>
+        <label for="customer_id" class="form-label">Customer ID</label>
+        <input type="text" class="form-control" name="cid" id="cid" value="{{ cid }}" readonly>
+
+        <label for="service_id" class="form-label">Service ID</label>
+        <input type="text" class="form-control" name="sid" id="sid" value="{{ sid }}" readonly>
+        
+        <label for="professional_id" class="form-label">Professional ID</label>
+        <input type="text" class="form-control" name="pid" id="pid" value="{{ pid }}" readonly>
+        
+        <label for="preferred_datetime" class="form-label">Preferred Date & Time</label>
+        <input type="datetime-local" class="form-control" name="preferred_datetime" id="preferred_datetime" required>
+    </div>
+    
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="/customer/{{ cid }}/{{ name }}" class="btn btn-danger">Cancel</a>
+    </div>
+</form>
+{% endblock %}
+

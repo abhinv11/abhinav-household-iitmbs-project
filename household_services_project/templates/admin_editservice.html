@@ -1,0 +1,26 @@
+{%extends "admin_layout.html"%} <!--inherited all navigational features-->
+{%block content%}
+{%if service%}
+<div class="center"><h3>Edit Service</h3></div>
+
+<form action="/edit_service/{{service.service_id}}/{{name}}" method="POST">
+    <div class="mb-3">
+      <label for="service_name" class="form-label">Service Name</label>
+      <input type="text" class="form-control" name="service_name" id="service_name" value="{{service.service_name}}">
+
+      <label for="description" class="form-label">Service Description</label>
+      <input type="text" class="form-control" name="description" id="description" value="{{service.description}}">
+    
+      <label for="min_price" class="form-label">Minimum Price</label>
+      <input type="text" class="form-control" name="min_price" id="min_price" value="{{service.min_price}}">
+
+      <label for="min_time" class="form-label">Min Time Required</label>
+      <input type="text" class="form-control" name="min_time" id="min_time" value="{{service.min_time_required}}">
+    
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="/admin/{{name}}" type="button" class="btn btn-danger">Cancel</a>
+</form>
+{%endif%}
+{%endblock%}

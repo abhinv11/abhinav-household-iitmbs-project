@@ -1,0 +1,24 @@
+{%extends "admin_layout.html"%} <!--inherited all navigational features-->
+{%block content%}
+<div class="center"><h3>Add Service</h3></div>
+
+<form action="#" method="POST">
+    <div class="mb-3">
+      <label for="service_name" class="form-label">Service Name</label>
+      <input type="text" class="form-control" name="service_name" id="service_name" placeholder="Service Name">
+
+      <label for="description" class="form-label">Service Description</label>
+      <input type="text" class="form-control" name="description" id="description" placeholder="Description">
+    
+      <label for="min_price" class="form-label">Minimum Price</label>
+      <input type="text" class="form-control" name="min_price" id="min_price" placeholder="Min Price">
+
+      <label for="min_time" class="form-label">Min Time Required</label>
+      <input type="text" class="form-control" name="min_time" id="min_time" placeholder="Min Time">
+    
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="/admin/{{name}}" type="button" class="btn btn-danger">Cancel</a>
+</form>
+{%endblock%}

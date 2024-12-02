@@ -1,0 +1,32 @@
+{% extends "customer_layout.html" %}
+{% block content %}
+<div class="center"><h3>Edit Service Request Time</h3></div>
+
+<form action="/edit_service_request/{{ service_request.service_request_id }}/{{ name }}" method="POST">
+    <div class="mb-3">
+        <div class="center"><h4>Service Name: {{ service_request.service.service_name }}</h4></div>
+        
+        <label for="customer_id" class="form-label">Customer ID</label>
+        <input type="text" class="form-control" name="cid" id="cid" value="{{ service_request.customer_id }}" readonly>
+
+        <label for="service_id" class="form-label">Service ID</label>
+        <input type="text" class="form-control" name="sid" id="sid" value="{{ service_request.service_id }}" readonly>
+        
+        <label for="professional_id" class="form-label">Professional ID</label>
+        <input type="text" class="form-control" name="pid" id="pid" value="{{ service_request.professional_id }}" readonly>
+        
+        <label for="current_date" class="form-label">Current Date</label>
+        <input type="text" class="form-control" name="current_date" id="current_date" 
+               value="{{ service_request.service_request_time.strftime('%Y-%m-%d') }}" readonly>
+
+        <label for="preferred_time" class="form-label">New Preferred Time</label>
+        <input type="time" class="form-control" name="preferred_time" id="preferred_time" 
+               value="{{ service_request.service_request_time.strftime('%H:%M') }}" required>
+    </div>
+    
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Update Time</button>
+        <a href="/customer/{{ service_request.customer_id }}/{{ name }}" class="btn btn-danger">Cancel</a>
+    </div>
+</form>
+{% endblock %}

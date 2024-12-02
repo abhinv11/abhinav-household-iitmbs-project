@@ -1,0 +1,179 @@
+{%extends "admin_layout.html"%} <!--inherited all navigational features-->
+{%block content%}
+
+                <hr>
+
+              <h3>Services</h3>
+              <div class="container text-center">
+                {%if services%}
+                <div class="row">
+                  <table>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Description</th>
+                      <th>Min_Price(INR)</th>
+                      <th>Min_Time(Min.)</th>
+                      <th>Edit</th>
+                      <th>Delete</th>
+                    </tr>
+                    {%for service in services%}
+                    <tr>
+                      <td>{{service.service_id}}</td>
+                      <td>{{service.service_name}}</td>
+                      <td>{{service.description}}</td>
+                      <td>{{service.min_price}}</td>
+                      <td>{{service.min_time_required}}</td>
+                      <td>
+                        <a href="/edit_service/{{service.service_id}}/{{name}}" type="button" class="btn btn-outline-secondary">Edit</a> 
+                      </td>
+                      <td>
+                        <a href="/delete_service/{{service.service_id}}/{{name}}" type="button" class="btn btn-outline-danger">Delete</a>
+                      </td>
+                    </tr>
+                    {%endfor%}
+                  </table>
+                  
+                </div>
+                {%else%}
+                <h4 class="center">No Services are available!!</h4>
+                {%endif%}
+              </div>
+              <div class="center"><a href="/addservice/{{name}}" type="button" class="btn btn-primary">+Add Service</a></div>
+
+              <hr>
+
+              <h3>Professionals</h3>
+              <div class="container text-center">
+                {%if professionals%}
+                <div class="row">
+                  <table>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Service Name</th>
+                      <th>Experience(Years)</th>
+                      <th>City</th>
+                      <!-- <th>Is_Active</th> -->
+                       <th>Verification Document</th>
+                      <th>Action</th>
+                    </tr>
+                    {%for professional in professionals%}
+                    <tr>
+                      <td>{{professional.professional_id}}</td>
+                      <td>{{professional.user.full_name}}</td>
+                      <td>{{professional.service.service_name}}</td>
+                      <td>{{professional.experience}}</td>
+                      <td>{{professional.city}}</td>
+                      <!-- <td>{{ "Yes" if professional.user.is_active else "No" }}</td> -->
+                      <td>
+                        {% if professional.document_path %}
+                        <a href="{{ url_for('static', filename=professional.document_path) }}" target="_blank">View Document</a>
+                        {% else %}
+                        No Document
+                        {% endif %}
+                    </td>
+                    
+                      <td>
+                        {% if not professional.is_approved %}
+                          <a href="/approve_professional/{{ professional.professional_id }}" class="btn btn-outline-success">Approve</a>
+                        
+                        {%else%}
+                        <a href="/block_professional/{{ professional.professional_id }}" class="btn btn-outline-danger">Block</a>
+                        {% endif %}
+                      </td>
+
+                    </tr>
+                    {%endfor%}
+                  </table>
+                  
+                </div>
+                {%else%}
+                <h4 class="center">No Professionals are available!!</h4>
+                {%endif%}
+
+              <hr>
+
+              <h3 class="left_align">Customers</h3>
+              <div class="container text-center">
+                {%if customers%}
+                <div class="row">
+                  <table>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Address</th>
+                      <th>Pincode</th>
+                      <!-- <th>Is_Active</th> -->
+                      <th>Action</th>
+                    </tr>
+                    {%for customer in customers%}
+                    <tr>
+                      <td>{{customer.customer_id}}</td>
+                      <td>{{customer.user.full_name}}</td>
+                      <td>{{customer.address}}</td>
+                      <td>{{customer.pincode}}</td>
+                      <td>
+                        <form action="{{ url_for('toggle_customer_status', customer_id=customer.customer_id) }}" method="POST">
+                          <button type="submit" class="btn btn-sm {{ 'btn-outline-danger' if customer.user.is_active else 'btn-success' }}">
+                            {{ 'Block' if customer.user.is_active else 'Unblock' }}
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                    {%endfor%}
+                  </table>
+                  
+                </div>
+                {%else%}
+                <h4 class="center">No Customers are available!!</h4>
+                {%endif%}
+
+                <hr>
+
+                
+              <h3 class="left_align">Service Requests</h3>
+              <div class="container text-center">
+                {%if service_requests%}
+                <div class="row">
+                  <table>
+                    <tr>
+                      <th>Service Request ID</th>
+                      <th>Customer Name</th>
+                      <th>Professional Name</th>
+                      <th>Service Request Time</th>
+                      <th>Status</th>
+                      <th>Rating</th>
+                      <th>Complaint</th>
+                    {%for service_request in service_requests%}
+                    <tr>
+                      <td>{{service_request.service_request_id}}</td>
+                      <td>{{service_request.customer.user.full_name}}</td>
+                      <td>{{service_request.professional.user.full_name}}</td>
+                      <td>{{service_request.service_request_time}}</td>
+                      <td>{{service_request.status.name}}</td>
+                      <td>
+                        {% if service_request.reviews %}
+                        {{ service_request.reviews[0].rating }}
+                      {% else %}
+                        No Rating
+                      {% endif %}
+                      </td>
+                      <td>
+                        {% if service_request.complaints %}
+                        {{ service_request.complaints[0].description }}
+                      {% else %}
+                        No Complaint
+                      {% endif %}
+
+                    </tr>
+                    {%endfor%}
+                  </table>
+                  
+                </div>
+                {%else%}
+                <h4 class="center">No Service Request are available!!</h4>
+                {%endif%}
+              </div>
+{%endblock%}
+              

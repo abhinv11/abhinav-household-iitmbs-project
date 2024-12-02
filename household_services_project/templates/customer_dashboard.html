@@ -1,0 +1,98 @@
+{%extends "customer_layout.html"%} <!--inherited all navigational features-->
+{%block content%}
+
+              
+              <div class="container text-center">
+                {%if services%}
+                <div class="row">
+                  <h4>Looking for??</h4>
+                  <table>
+                    <tr>
+                      <th>Service Name</th>
+                      <th>Price(INR)</th>
+                      <th>Approminate Time Taken(Minutes)</th>
+                      <th>Book</th>
+                    </tr>
+                    {%for service in services%}
+                    <tr>
+                      <td>{{service.service_name}}</td>
+                      <td>{{service.min_price}}</td>
+                      <td>{{service.min_time_required}}</td>
+                      <td>
+                      
+                          
+                            <div class="center">
+                              <a href="/service_professionals/{{ service.service_id }}/{{ customer_id }}/{{ name }}" 
+                                type="button" class="btn btn-outline-primary">View Professionals</a>
+                              
+                            </div>
+                          
+                       
+                        </td>
+                    </tr>
+                    {%endfor%}
+                  </table>
+                  
+                </div>
+                {%else%}
+                <h3 class="center">No Service  are available!!</h3>
+                {%endif%}
+              </div>
+
+              <hr>
+
+              <h3>Requested Services</h3>
+              <div class="container text-center">
+                {%if service_requests%}
+                <div class="row">
+                  <table>
+                    <tr>
+                      <th>Service Name</th>
+                      <th>Price(INR)</th>
+                      <th>Professional Name</th>
+                      <th>Booking Date</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                      
+                    </tr>
+                    {%for service_request in service_requests%}
+                    <tr>
+                      <td>{{service_request.service.service_name}}</td>
+                      <td>{{service_request.service.min_price}}</td>
+                      <td>{{service_request.professional.user.full_name}}</td>
+                      <td>{{service_request.service_request_time}}</td>
+                      <td>{{service_request.status.name}}</td>
+                      <td>
+                        {% if service_request.status.name == "PENDING" %}
+                        <a href="{{ url_for('edit_service_request', service_request_id=service_request.service_request_id, name=name) }}" 
+                           class="btn btn-outline-primary btn-sm">Edit</a>
+                           {% elif service_request.status.name == "COMPLETED" %}
+                           <a href="{{ url_for('rate_service_request', service_request_id=service_request.service_request_id, name=name) }}" 
+                              class="btn btn-outline-success btn-sm">Rate</a>
+                           <a href="{{ url_for('file_complaint', service_request_id=service_request.service_request_id, name=name) }}" 
+                              class="btn btn-outline-danger btn-sm">Complaint</a>
+                           {% else %}
+                           <span class="text-muted">No Action</span>
+                        {% endif %}
+              
+                      </td>
+                    </tr>
+                    {%endfor%}
+                  </table>
+                  
+                </div>
+                {%else%}
+                <h3 class="center">No Service requests  are available!!</h3>
+                {%endif%}
+              </div>
+              
+
+            <hr>
+
+              <!-- <h3>Service History</h3>
+                <div class="row">
+                  <div class="col">
+                    Column
+                  </div>
+                </div> -->
+{%endblock%}

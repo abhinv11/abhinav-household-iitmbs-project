@@ -1,0 +1,61 @@
+{%extends "professional_layout.html"%} <!--inherited all navigational features-->
+{%block content%}
+
+                <hr>
+
+                <h3 class="left_align">Service Requests</h3>
+                <div class="container text-center">
+                  {%if service_requests%}
+                  <div class="row">
+                    <table>
+                      <tr>
+                        <th>Service Request ID</th>
+                        <th>Customer Name</th>
+                        <th>Professional Name</th>
+                        <th>Service Request Time</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      {%for service_request in service_requests%}
+                      <tr>
+                        <td>{{service_request.service_request_id}}</td>
+                        <td>{{service_request.customer.user.full_name}}</td>
+                        <td>{{service_request.professional.user.full_name}}</td>
+                        <td>{{service_request.service_request_time}}</td>
+                        <td>{{service_request.status.name}}</td>
+                        <td>
+                          {% if service_request.status.name == "PENDING" %}
+                            <a href="/accept_request/{{ service_request.service_request_id }}" 
+                               class="btn btn-success">Accept</a>
+                            <a href="/reject_request/{{ service_request.service_request_id }}" 
+                               class="btn btn-danger">Reject</a>
+                          {% elif service_request.status.name == "COMPLETED" %}
+                            <span class="badge bg-success">Completed</span>
+                          {% elif service_request.status.name == "ACCEPTED" %}
+                            <span class="badge bg-primary">Accepted</span>
+                            <a href="/complete_request/{{ service_request.service_request_id }}" 
+                               class="btn btn-primary">Mark as Completed</a>
+                          {% elif service_request.status.name == "CANCELLED" %}
+                            <span class="badge bg-danger">Rejected</span>
+                          {% endif %}
+                        </td>
+                        
+                      </tr>
+                      {%endfor%}
+                    </table>
+                    
+                  </div>
+                  {%else%}
+                  <h2 class="center">No Service Request are available!!</h2>
+                  {%endif%}
+                </div>
+
+              <hr>
+
+              <!-- <h3>Closed Service</h3>
+                <div class="row">
+                  <div class="col">
+                    Column
+                  </div>
+                </div> -->
+{%endblock%}
+              

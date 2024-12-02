@@ -1,0 +1,36 @@
+{% extends "customer_layout.html" %}
+{% block content %}
+<div class="center"><h3>Available Professionals for {{ service.service_name }}</h3></div>
+
+<div class="container text-center">
+    {% if professionals %}
+    <div class="row">
+        <table>
+            <tr>
+                <th>Professional Name</th>
+                <th>Experience (Years)</th>
+                <th>City</th>
+                <th>Description</th>
+                <th>Book</th>
+            </tr>
+            {% for professional in professionals %}
+            <tr>
+                <td>{{ professional.user.full_name }}</td>
+                <td>{{ professional.experience }}</td>
+                <td>{{ professional.city }}</td>
+                <td>{{ professional.description }}</td>
+                <td>
+                    <a href="/customerbookrequest/{{ customer_id }}/{{ service.service_id }}/{{ professional.professional_id }}/{{ name }}" 
+                       type="button" class="btn btn-primary">
+                       Book Now
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% else %}
+    <h3 class="center">No professionals available for this service!</h3>
+    {% endif %}
+</div>
+{% endblock %}
